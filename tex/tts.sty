@@ -1,0 +1,46 @@
+\NeedsTeXFormat{LaTeX2e}
+
+\RequirePackage{multimedia}
+\RequirePackage{fontawesome5}
+\RequirePackage{environ}
+\RequirePackage{tikz}
+
+\makeatletter
+\def\@MODEL{tts_models/en/ljspeech/fast_pitch}
+\def\@VOCODER{vocoder_models/en/ljspeech/hifigan_v2}
+
+% To be used as an optional parameter to indicate that no TTS is to be generated.
+\def\skiptts{skiptts}
+
+% #1: (Optional) If empty then speech is synthesized
+% #2: Relative path to audio file
+% #3: Text
+\newcommand{\@audio}[3][]{
+  \def\optparam{#1}
+  \ifx\optparam\empty{%
+    \immediate\write18{$TTSUTILITIES/sh/tts.sh "#2" "#3"}
+    \raisebox{-3pt}{% Without this, the TIKZ picture would be a bit too high
+    \begin{tikzpicture}
+      \draw (0,0) circle [radius=0.2] node {\small\sound[inlinesound]{\faIcon{play}}{#2}};% play button
+      \draw (0.5,0) circle [radius=0.2] node {\small\hyperlinkmute{\faIcon{stop}}};% stop button
+    \end{tikzpicture}}
+  }\else{%
+    \raisebox{-3pt}{% Without this, the TIKZ picture would be a bit too high
+    \begin{tikzpicture}
+      \draw (0,0) circle [radius=0.2] node {\small\faIcon{play}};% play button
+      \draw (0.5,0) circle [radius=0.2] node {\small\faIcon{stop}};% stop button
+    \end{tikzpicture}}
+  }\fi
+}
+
+% #1: (Optional) If empty then speech is synthesized
+% #2: Frame titlle
+% #3: Relative path to audio file
+% #4: Text
+\newcommand{\audiotitle}[4][]{%
+  #2%
+  \hspace{0pt plus 1 filll}% Replacement for \hfill in beamer
+  \@audio[#1]{#3}{#4}%
+}
+
+\makeatother
