@@ -7,8 +7,9 @@
 
   2.  Activate the virtual environment: `source venv/bin/activate`
 
-  3.  Install the [RealtimeTTS](https://github.com/KoljaB/RealtimeTTS) package:
-      `pip install realtimetts\[all\]`
+  3.  Install the [RealtimeTTS](https://github.com/KoljaB/RealtimeTTS),
+      `nltk` and `pyspellchecker` packages:
+      `pip install realtimetts\[all\] nltk pyspellchecker`
 
   4.  Close the virtual environment: `deactivate`
 
