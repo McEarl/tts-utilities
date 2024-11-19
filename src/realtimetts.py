@@ -12,7 +12,9 @@ replacements = [
     ("\\latex", "Lay Tech"),
     ("\\smglom", "S M Glom"),
     ("\\stex", "S Tech"),
-    ("\\tex", "Tech")
+    ("\\tex", "Tech"),
+    ("\\mmt", "M M T"),
+    ("\\immt", "I M M T")
   ]
 
 # Replace all substrings of the input text that match @replacements@.
