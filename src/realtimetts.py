@@ -14,7 +14,10 @@ replacements = [
     ("\\stex", "S Tech"),
     ("\\tex", "Tech"),
     ("\\mmt", "M M T"),
-    ("\\immt", "I M M T")
+    ("\\immt", "I M M T"),
+    ("\\uri", "U R I"),
+    ("\\url", "U R L"),
+    ("\\bnf", "B N F")
   ]
 
 # Replace all substrings of the input text that match @replacements@.
@@ -28,7 +31,6 @@ welcomeStr = "Enter some text to be read aloud. Type \":h\" for help."
 helpStr = ":h  help\n:q  quit\n:s  stop\n:p  pause\n:r  resume"
 
 print("\n" + welcomeStr)
-#inputStr = ""
 while True:
   inputStr = input("> ")
   if inputStr == ":h":
@@ -48,7 +50,10 @@ while True:
   else:
     # Spell-correct the input string:
     spell = SpellChecker()
-    words = re.split('([^a-zA-Z0-9\\\\])', inputStr) # Split the input string, keeping all separators
+    # Split the input string, keeping all separators. Backslashes and braces do
+    # not count as separators such that backslashed words and single (!) words
+    # surounded by braces are not auto-corrected.
+    words = re.split('([^a-zA-Z0-9\\\\\\{\\}])', inputStr)
     word = ""
     for i in range(len(words)):
       word = words[i]
@@ -57,7 +62,9 @@ while True:
         if correction is not None:
           words[i] = correction
     inputStr = "".join(words) # Concatenate the components of the modified input string
-    print("Correction:" + inputStr)
+    # Remove braces.
+    inputStr = inputStr.replace('{', '').replace('}', '')
+    print(inputStr)
     # Split the input text into sentences:
     for sentence in nltk.sent_tokenize(inputStr):
       stream.feed(sentence)
