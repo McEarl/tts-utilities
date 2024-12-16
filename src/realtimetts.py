@@ -48,8 +48,9 @@ while True:
     stream.resume()
     continue
   else:
-    # Spell-correct the input string:
-    spell = SpellChecker()
+    # Spell-correct the input string (use @distance=1@ to work properly on long 
+    # words):
+    spell = SpellChecker(distance=1)
     # Split the input string, keeping all separators. Backslashes and braces do
     # not count as separators such that backslashed words and single (!) words
     # surounded by braces are not auto-corrected.
